@@ -103,6 +103,8 @@
             }
 
             ed.click(function(e, closest_tag){
+                $('.placeholder', ed).remove();
+
                 if (o.append) {
                     return $(new_tag).appendTo(ed).find('.tag-editor-tag').click();
                 }
@@ -120,7 +122,7 @@
                 blur_result = true
 
                 // always remove placeholder on click
-                $('.placeholder', ed).remove();
+                // $('.placeholder', ed).remove();
                 if (closest_tag && closest_tag.length)
                     loc = 'before';
                 else {
@@ -177,7 +179,7 @@
                     // guess cursor position in text input
                     var left_percent = Math.abs(($(this).offset().left - e.pageX)/$(this).width()), caret_pos = parseInt(tag.length*left_percent),
                         input = $(this).html('<input type="text" maxlength="'+o.maxLength+'" value="'+escape(tag)+'">').addClass('active').find('input');
-                        input.data('old_tag', tag).tagEditorInput().focus().caret(caret_pos);
+                    input.data('old_tag', tag).tagEditorInput().focus().caret(caret_pos);
                     if (o.autocomplete) {
                         var aco = $.extend({}, o.autocomplete);
                         // extend user provided autocomplete select method
@@ -276,7 +278,7 @@
                         prev_tag.click().find('input').caret(-1);
                         return false;
                     }
-                    
+
                     if ($t.val() && !(o.maxTags && ed.data('tags').length >= o.maxTags)) $(new_tag).insertBefore($t.closest('li')).find('.tag-editor-tag').click();
                     return false;
                 }
@@ -286,8 +288,8 @@
                     if (next_tag.length && o.editable) {
                         next_tag.click().find('input').caret(0);
                         return false;
-                    } 
-                    
+                    }
+
                     if ($t.val()) ed.click();
                     return false;
                 }
@@ -309,7 +311,7 @@
                             return;
                         }
                         return false;
-                    // tab
+                        // tab
                     } else {
                         var next_tag = $t.closest('li').next('li').find('.tag-editor-tag');
                         if (next_tag.length && o.editable) {
@@ -328,7 +330,7 @@
                         var next_tag = $t.closest('li').next('li').find('.tag-editor-tag');
                         if (next_tag.length) next_tag.click().find('input').caret(0);
                     }
-                    
+
                     if ($t.val()) ed.click();
                     return false;
                 }
@@ -357,7 +359,7 @@
             for (var i=0; i<tags.length; i++) {
                 if (o.maxTags && i >= o.maxTags) break;
                 var tag = tags[i];
-                if (o.trim) {
+                if (o.trimInitialTagsWhitespace) {
                     tag = $.trim(tag.replace(/ +/, ' '));
                 }
                 if (tag) {
@@ -383,11 +385,11 @@
         delimiter: ',;',
         placeholder: '',
         forceLowercase: true,
+        trimInitialTagsWhitespace: true,
         removeDuplicates: true,
         clickDelete: false,
         editable: true,
         append: false,
-        trim: true,
         animateDelete: 175,
         sortable: true, // jQuery UI sortable
         autocomplete: null, // options dict for jQuery UI autocomplete
