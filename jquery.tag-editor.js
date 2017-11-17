@@ -356,7 +356,10 @@
             var tags = o.initialTags.length ? o.initialTags : el.val().split(o.dregex);
             for (var i=0; i<tags.length; i++) {
                 if (o.maxTags && i >= o.maxTags) break;
-                var tag = $.trim(tags[i].replace(/ +/, ' '));
+                var tag = tags[i];
+                if (o.trim) {
+                    tag = $.trim(tag.replace(/ +/, ' '));
+                }
                 if (tag) {
                     if (o.forceLowercase) tag = tag.toLowerCase();
                     tag_list.push(tag);
@@ -384,6 +387,7 @@
         clickDelete: false,
         editable: true,
         append: false,
+        trim: true,
         animateDelete: 175,
         sortable: true, // jQuery UI sortable
         autocomplete: null, // options dict for jQuery UI autocomplete
