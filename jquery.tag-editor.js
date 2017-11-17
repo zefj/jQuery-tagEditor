@@ -103,6 +103,10 @@
             }
 
             ed.click(function(e, closest_tag){
+                if (o.append) {
+                    return $(new_tag).appendTo(ed).find('.tag-editor-tag').click();
+                }
+
                 var d, dist = 99999, loc;
 
                 // do not create tag when user selects tags by text selection
@@ -379,6 +383,7 @@
         removeDuplicates: true,
         clickDelete: false,
         editable: true,
+        append: false,
         animateDelete: 175,
         sortable: true, // jQuery UI sortable
         autocomplete: null, // options dict for jQuery UI autocomplete
